@@ -56,8 +56,7 @@ def main():
     mask_stack = np.stack((mask, mask, mask), axis=2)
     masked = cv2.bitwise_and(img, mask_stack)
     masked = cv2.erode(masked, kernel=(25,25,25))
-    cv2.imshow('frame', masked)
-    cv2.waitKey(0)
+    cv2.imwrite('templates/pic1.jpg', masked)
 
 if __name__=="__main__":
     main()
