@@ -13,9 +13,9 @@ from PIL import Image
 def main():
 
     #TODO: using args
-    data_path = "sample_data"
-    renamed_path = "sample_data_renamed"
-    excel_names_file = 'names.xlsx'
+    data_path = "sample2"
+    renamed_path = "sample2_renamed"
+    excel_names_file = 's2names.xlsx'
     
     names_df = pd.read_excel(excel_names_file, engine='openpyxl')       # pandas dataframe to import excel file
     names = names_df['NAMES'].to_list()                                 # converting to a python list
@@ -44,7 +44,7 @@ def main():
             changelog.append([img_path, curr_new_name])             # append to the changelog
 
 
-    with xlsxwriter.Workbook('changelog.xlsx') as workbook:         # excel writing session
+    with xlsxwriter.Workbook('s2changelog.xlsx') as workbook:         # excel writing session
         worksheet = workbook.add_worksheet()
 
         for row_num, data in enumerate(changelog):

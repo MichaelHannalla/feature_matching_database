@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 
 def main():
 
-    img = cv2.imread("sample_data/a01000.jpg")
+    img = cv2.imread("sample_data/a01551.jpg")
     img = cv2.resize(img, (img.shape[1]//3, img.shape[0]//3))
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img2 = img.copy()
@@ -26,8 +26,10 @@ def main():
         # If the method is TM_SQDIFF or TM_SQDIFF_NORMED, take minimum
         if method in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:
             top_left = min_loc
+            print("Min value using {} is {}".format(meth, min_val))
         else:
             top_left = max_loc
+            print("Max value using {} is {}".format(meth, max_val))
         
         bottom_right = (top_left[0] + w, top_left[1] + h)
         

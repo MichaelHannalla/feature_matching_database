@@ -72,7 +72,7 @@ def main():
     net = cv2.dnn.readNet('models/frozen_east_text_detection.pb')
     
     # load the input image and grab the image dimensions
-    image = cv2.imread('sample_data/a01530.jpg')
+    image = cv2.imread('sample_data/a01544.jpg')
 
     orig = image.copy()
     (origH, origW) = image.shape[:2]
