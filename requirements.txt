@@ -2,3 +2,4 @@ pytesseract
 pandas
 numpy
 os
+imutils
