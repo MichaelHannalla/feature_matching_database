@@ -1,7 +1,7 @@
-# File: east_test.py
+# File: east_tesseract_test.py
 # Author: @MichaelHannalla
 # Project: OCR on a database and template matching
-# Description: Python file for testing the OpenCV east text detector
+# Description: Python file for testing the OpenCV east text detector with tesseract recognition
 
 import cv2
 import time
