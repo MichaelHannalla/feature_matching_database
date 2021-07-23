@@ -5,3 +5,5 @@ os
 imutils
 time
 opencv-python
+xlsxwriter
+pillow
