@@ -62,8 +62,6 @@ def main():
                 print("Match found between {} in samples folder and {} in database folder".format(sample_img_path, database_img_path))
                 correspondences.append([sample_img_path, database_img_path])
                 break                                                   # break and stop searching for this if a match is found (this to allow faster search)
-        if idx1 == 3:
-            break
 
     if use_bruteforce:
         excel_suffix = "bf"
