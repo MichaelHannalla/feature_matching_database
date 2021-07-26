@@ -2,5 +2,7 @@
 *.jpeg
 *.pb
 *.tar.gz
+*.pyc
 excels/correspondences_bf.xlsx
 excels/correspondences_flann.xlsx
+excels/correspondences_revised.xlsx
