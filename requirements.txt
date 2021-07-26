@@ -7,3 +7,4 @@ time
 opencv-python
 xlsxwriter
 pillow
+scipy
