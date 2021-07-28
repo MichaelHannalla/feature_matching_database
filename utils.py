@@ -1,11 +1,11 @@
-from os import remove
+import os
 import scipy
 import scipy.misc
 import scipy.cluster
 import cv2
 import numpy as np
 from PIL import Image
-
+from tqdm import tqdm
 
 NUM_CLUSTERS = 5
 COLOR_EUCLID_THRESH = 20000
@@ -78,5 +78,24 @@ def check_color_feaasibility(query_img, train_img):
     else:
         return euclid, True
     
+def read_image(path):
+    img = Image.open(path)
+    img = np.array(img)                                       # convert from PIL image to openCV
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    return img
 
+def load_descriptors(imgs_folder, extractor):
     
+    print("Loading descriptors from {} folder.".format(imgs_folder))
+    list = os.listdir(imgs_folder)      # Get everything in the folder directory
+    des_names_list = []                 # List that will hold the descriptor and the corresponding file name
+
+    for idx, img_path in enumerate(tqdm(list)):
+        
+        # Read every image in samples folder and database folder, do same conversions on sample image
+        img = read_image(imgs_folder + "/" + img_path)
+        kp, des = extractor.detectAndCompute(img, None)
+        img_resized = cv2.resize(img, (img.shape[1]//3, img.shape[0]//3))
+        des_names_list.append((des, img_path, img_resized))
+    
+    return des_names_list

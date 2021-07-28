@@ -8,3 +8,4 @@ opencv-python
 xlsxwriter
 pillow
 scipy
+tqdm
