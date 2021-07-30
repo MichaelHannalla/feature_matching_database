@@ -36,7 +36,7 @@ def main():
     
     for sample_idx, sample_img_path in enumerate(tqdm(samples_list)):
 
-        curr_max_match_number = good_matches_threshold                              # Initialize a variable that holds the max matches of all
+        curr_max_match_number = 0                                                             # Initialize a variable that holds the max matches of all
 
         print("_Comparing sample {}/{}.".format(sample_idx, len(samples_list)))
         # Open the sample image, then convert to openCV type, then change color space.
@@ -82,14 +82,14 @@ def main():
 
         else:    
             print("No match found for sample {} in the database folder".format(sample_img_path))
-            correspondences.append([sample_img_path, "NO MATCH", 0])
+            correspondences.append([sample_img_path, "NO MATCH", curr_max_match_number, curr_max_match])            # Print also the most likely match even if not successful
 
     if use_bruteforce:
         excel_suffix = "bf"
     else:
         excel_suffix = "flann"
 
-    with xlsxwriter.Workbook('excels/correspondences_{}_rapid.xlsx'.format(excel_suffix)) as workbook:         # excel writing session
+    with xlsxwriter.Workbook('excels/correspondences_{}_rapid.xlsx'.format(excel_suffix)) as workbook:              # excel writing session
         worksheet = workbook.add_worksheet()
 
         for row_num, data in enumerate(correspondences):
