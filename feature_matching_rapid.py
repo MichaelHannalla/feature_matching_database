@@ -20,7 +20,7 @@ def main():
     samples_folder = "sample1"              # Path for the samples folder
     database_folder = "sample2"             # Path for the database folder
     
-    correspondences = [['sample', 'database', 'match score']]                # Empty list to hold correspondences, will later be converted to an excel file
+    correspondences = [["Samples Folder:", samples_folder],['sample', 'database', 'match score']]                # Empty list to hold correspondences, will later be converted to an excel file
 
     samples_list = os.listdir(samples_folder)       # Get everything in the samples folder directory
     database_list = os.listdir(database_folder)     # Get everything in the database folder directory
