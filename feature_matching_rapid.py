@@ -4,7 +4,7 @@ import os
 from numpy.lib.npyio import load
 import xlsxwriter
 from PIL import Image
-from utils import check_color_feaasibility, load_descriptors, read_image
+from utils import adjust_name, check_color_feaasibility, is_same_ref_name, load_descriptors, read_image, write_results_excel
 from tqdm import tqdm
 
 def main():
@@ -17,10 +17,10 @@ def main():
     give_second_chance = True               # Choosing whether we'll give a chance to low ratio matches with one image in database
     second_chance_match_threshold = 45      # Threshold for low ratio matches
 
-    samples_folder = "sample1"              # Path for the samples folder
-    database_folder = "sample2"             # Path for the database folder
+    samples_folder = "sample1_renamed"              # Path for the samples folder
+    database_folder = "sample2_renamed"             # Path for the database folder
     
-    correspondences = [["Samples Folder:", samples_folder],['sample', 'database', 'match score']]                # Empty list to hold correspondences, will later be converted to an excel file
+    correspondences = [["Samples Folder:", samples_folder], ['sample', 'database', 'match score']]  # Empty list to hold correspondences, will later be converted to an excel file
 
     samples_list = os.listdir(samples_folder)       # Get everything in the samples folder directory
     database_list = os.listdir(database_folder)     # Get everything in the database folder directory
@@ -44,14 +44,21 @@ def main():
 
         curr_max_match_number = 0                                                             # Initialize a variable that holds the max matches of all
         max_match_number_unguaranteed = 0
+        current_presumed_label = None
 
         print("_Comparing sample {}/{}.".format(sample_idx, len(samples_list)))
-        # Open the sample image, then convert to openCV type, then change color space.
         sample_img = read_image(samples_folder + "/" + sample_img_path)
+        sample_img_path = adjust_name(sample_img_path)
         sample_kp, sample_des = orb.detectAndCompute(sample_img, None)
 
         for database_point in database_data:
+
             database_des, database_name, database_img = database_point
+            database_name = adjust_name(database_name)
+
+            if not current_presumed_label == None:
+                if not is_same_ref_name(sample_img_path, database_name):
+                    continue
 
             if use_bruteforce:
                 matches = bf.knnMatch(sample_des, database_des, k=2)                            # perform knn matching with 2 nearest neighbours
@@ -78,6 +85,9 @@ def main():
                 low_ratio_match_number = len(good_matches)
 
             if len(good_matches) > good_matches_threshold:
+                
+                current_presumed_label = database_name
+
                 if not check_color_feaasibility(sample_img, database_img):
                     continue
 
@@ -103,16 +113,7 @@ def main():
             print("No match found for sample {} in the database folder".format(sample_img_path))
             correspondences.append([sample_img_path, "NO MATCH", max_match_number_unguaranteed, max_match_unguaranteed])            # Print also the most likely match even if not successful
 
-    if use_bruteforce:
-        excel_suffix = "bf"
-    else:
-        excel_suffix = "flann"
-
-    with xlsxwriter.Workbook('excels/correspondences_{}_rapid.xlsx'.format(excel_suffix)) as workbook:              # excel writing session
-        worksheet = workbook.add_worksheet()
-
-        for row_num, data in enumerate(correspondences):
-            worksheet.write_row(row_num, 0, data)
+    write_results_excel('excels/correspondences_{}_rapid.xlsx', correspondences)
 
 if __name__ == "__main__":
     main()

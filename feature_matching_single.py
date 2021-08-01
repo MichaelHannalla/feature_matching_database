@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 from utils import check_color_feaasibility
 
-img1 = cv2.imread('sample1/a01166.jpg')
-img2 = cv2.imread('sample2/a01186.jpg')
+img1 = cv2.imread('test_imgs/test1.jpeg')
+img2 = cv2.imread('test_imgs/test2.jpeg')
 
 orb = cv2.ORB_create(nfeatures= 1000)
 

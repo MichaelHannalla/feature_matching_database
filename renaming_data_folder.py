@@ -15,7 +15,7 @@ def main():
     #TODO: using args
     data_path = "sample2"
     renamed_path = "sample2_renamed"
-    excel_names_file = 's2names.xlsx'
+    excel_names_file = 'excels/s2names.xlsx'
     
     names_df = pd.read_excel(excel_names_file, engine='openpyxl')       # pandas dataframe to import excel file
     names = names_df['NAMES'].to_list()                                 # converting to a python list
@@ -33,7 +33,7 @@ def main():
         try:
             Image.open(renamed_path + "/" + curr_new_name)          # try to open if some file exists with the same name, will raise FileNotFoundError if not found
             dup_idx += 1 
-            modified_curr_new_name = str(names[idx] + "-{}.jpg".format(dup_idx))    # modify the new name to hold duplicates
+            modified_curr_new_name = str(names[idx] + "_{}.jpg".format(dup_idx))    # modify the new name to hold duplicates
             img.save(renamed_path + "/" + modified_curr_new_name)                   # save with the modified name
             changelog.append([img_path, modified_curr_new_name])                    # append to the changelog
             
@@ -44,7 +44,7 @@ def main():
             changelog.append([img_path, curr_new_name])             # append to the changelog
 
 
-    with xlsxwriter.Workbook('s2changelog.xlsx') as workbook:         # excel writing session
+    with xlsxwriter.Workbook('excels/s2changelog.xlsx') as workbook:         # excel writing session
         worksheet = workbook.add_worksheet()
 
         for row_num, data in enumerate(changelog):

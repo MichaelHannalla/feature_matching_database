@@ -9,3 +9,5 @@ xlsxwriter
 pillow
 scipy
 tqdm
+itertools
+pygsheets

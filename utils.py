@@ -4,8 +4,10 @@ import scipy.misc
 import scipy.cluster
 import cv2
 import numpy as np
+import xlsxwriter
 from PIL import Image
 from tqdm import tqdm
+from itertools import compress
 
 NUM_CLUSTERS = 5
 COLOR_EUCLID_THRESH = 20000
@@ -99,3 +101,32 @@ def load_descriptors(imgs_folder, extractor):
         des_names_list.append((des, img_path, img_resized))
     
     return des_names_list
+
+def write_results_excel(filename, datalist, use_bruteforce= True):
+    
+    if use_bruteforce:
+        excel_suffix = "bf"
+    else:
+        excel_suffix = "flann"
+
+    with xlsxwriter.Workbook(filename.format(excel_suffix)) as workbook:              # excel writing session
+        worksheet = workbook.add_worksheet()
+
+        for row_num, data in enumerate(datalist):
+            worksheet.write_row(row_num, 0, data)
+
+def adjust_name(unadjusted_name):
+    ret = unadjusted_name.split('.')
+    label = ret[0]      # removed the extension
+    fragments = label.split("_")
+    adjusted_name = fragments[0]
+    return adjusted_name
+
+def is_same_ref_name(name1, name2):
+    name1_ref = name1.split("-")[0]
+    name2_ref = name2.split("-")[0]
+    if name1_ref == name2_ref:
+        return True
+    else:
+        return False
+    
