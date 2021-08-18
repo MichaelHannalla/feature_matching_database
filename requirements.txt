@@ -1,7 +1,6 @@
 pytesseract
 pandas
 numpy
-os-sys
 imutils
 time
 opencv-python
